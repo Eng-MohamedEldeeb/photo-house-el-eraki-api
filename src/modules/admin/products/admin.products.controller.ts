@@ -14,38 +14,19 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { memoryStorage } from 'multer';
-import { ProductsService } from './products.service';
-import {
-  CreateProductDto,
-  UpdateProductDto,
-  UpdateStockDto,
-  ProductQueryDto,
-} from './dto/product.dto';
-import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 
-// ── Public Routes ─────────────────────────────────────────────────────────
-@Controller('products')
-export class ProductsController {
-  constructor(private readonly service: ProductsService) {}
-
-  /** GET /api/products?search=&categoryId=&page=&limit= */
-  @Get()
-  findAll(@Query() query: ProductQueryDto) {
-    return this.service.findAll(query);
-  }
-
-  /** GET /api/products/:id */
-  @Get(':id')
-  findOne(@Param('id', ParseUUIDPipe) id: string) {
-    return this.service.findOne(id);
-  }
-}
+import { AdminProductsService } from './admin.products.service';
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
+import { ProductQueryDto, CreateProductDto, UpdateProductDto } from './dto';
+import { UpdateStockDto } from './dto/update.dto';
+import { IsExistedCategory } from 'src/common/guards/is-existed-category.guard';
+import { IsExistedProduct } from 'src/common/guards/is-existed-product.guard';
 
 // ── Admin Routes (JWT protected) ──────────────────────────────────────────
 @Controller('admin/products')
 @UseGuards(JwtAuthGuard)
 export class AdminProductsController {
-  constructor(private readonly service: ProductsService) {}
+  constructor(private readonly service: AdminProductsService) {}
 
   /** GET /api/admin/products — all products including inactive */
   @Get()
@@ -68,6 +49,7 @@ export class AdminProductsController {
   /** POST /api/admin/products  (multipart/form-data) */
   @Post()
   @UseInterceptors(FileInterceptor('image', { storage: memoryStorage() }))
+  @UseGuards(IsExistedCategory)
   create(
     @Body() dto: CreateProductDto,
     @UploadedFile() file?: Express.Multer.File,
@@ -78,6 +60,7 @@ export class AdminProductsController {
   /** PATCH /api/admin/products/:id */
   @Patch(':id')
   @UseInterceptors(FileInterceptor('image', { storage: memoryStorage() }))
+  @UseGuards(IsExistedProduct)
   update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() dto: UpdateProductDto,
@@ -97,6 +80,7 @@ export class AdminProductsController {
 
   /** DELETE /api/admin/products/:id */
   @Delete(':id')
+  @UseGuards(IsExistedProduct)
   remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.service.remove(id);
   }

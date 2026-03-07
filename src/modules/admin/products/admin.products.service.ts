@@ -1,21 +1,14 @@
-import {
-  Injectable,
-  NotFoundException,
-  BadRequestException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Like, FindManyOptions } from 'typeorm';
-import { Product, StockStatus } from '../../db/entities/product.entity';
-import {
-  CreateProductDto,
-  UpdateProductDto,
-  UpdateStockDto,
-  ProductQueryDto,
-} from './dto/product.dto';
-import { CloudinaryService } from '../../common/services/cloudinary/cloudinary.service';
+
+import { Product, StockStatus } from 'src/db/entities/product.entity';
+import { CloudinaryService } from 'src/common/services/cloudinary/cloudinary.service';
+import { ProductQueryDto, CreateProductDto, UpdateProductDto } from './dto';
+import { UpdateStockDto } from './dto/update.dto';
 
 @Injectable()
-export class ProductsService {
+export class AdminProductsService {
   constructor(
     @InjectRepository(Product)
     private readonly repo: Repository<Product>,

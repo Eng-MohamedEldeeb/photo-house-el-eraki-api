@@ -1,3 +1,4 @@
+import { TypeOrmModule } from '@nestjs/typeorm';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -23,3 +24,5 @@ export class Admin {
   @UpdateDateColumn()
   updatedAt: Date;
 }
+
+export const AdminModel = TypeOrmModule.forFeature([Admin]);

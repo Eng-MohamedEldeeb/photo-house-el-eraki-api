@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
+import chalk from 'chalk';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -25,6 +26,8 @@ async function bootstrap() {
 
   const port = process.env.PORT || 3000;
   await app.listen(port);
-  console.log(`🚀 Photo House API running on: http://localhost:${port}/api`);
+  console.log(
+    `🚀 Photo House API running on: ${chalk.yellow(`http://localhost:${port}/api`)}`,
+  );
 }
 bootstrap();

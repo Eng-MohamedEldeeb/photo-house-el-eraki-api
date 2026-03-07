@@ -25,7 +25,7 @@ export class AuthService implements OnModuleInit {
   async onModuleInit() {
     const count = await this.adminRepo.count();
     if (count === 0) {
-      const hashed = await bcrypt.hash('admin123', 10);
+      const hashed = await bcrypt.hash(process.env.DB_ADMIN_PASS, 10);
       await this.adminRepo.save(
         this.adminRepo.create({ username: 'admin', password: hashed }),
       );
@@ -33,12 +33,11 @@ export class AuthService implements OnModuleInit {
     }
   }
 
-  async login(
-    dto: LoginDto,
-  ): Promise<{ accessToken: string; admin: Partial<Admin> }> {
+  async login(dto: LoginDto): Promise<{ accessToken: string }> {
     const admin = await this.adminRepo.findOne({
       where: { username: dto.username },
     });
+
     if (!admin) throw new UnauthorizedException('Invalid credentials');
 
     const valid = await bcrypt.compare(dto.password, admin.password);
@@ -48,6 +47,6 @@ export class AuthService implements OnModuleInit {
     const accessToken = this.jwtService.sign(payload);
 
     const { password: _, ...safe } = admin;
-    return { accessToken, admin: safe };
+    return { accessToken };
   }
 }

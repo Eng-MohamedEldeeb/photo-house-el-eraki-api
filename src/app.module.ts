@@ -2,17 +2,18 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './modules/auth/auth.module';
-import { ProductsModule } from './modules/products/products.module';
-import { CategoriesModule } from './modules/categories/categories.module';
 import { CloudinaryModule } from './common/services/cloudinary/cloudinary.module';
 import { Admin } from './db/entities/admin.entity';
 import { Product } from './db/entities/product.entity';
 import { Category } from './db/entities/category.entity';
+import { resolve } from 'path';
+import { ClientModule } from './modules/client/client.module';
+import { AdminModule } from './modules/admin/admin.module';
 
 @Module({
   imports: [
     // Config
-    ConfigModule.forRoot({ envFilePath: '.env', isGlobal: true }),
+    ConfigModule.forRoot({ envFilePath: resolve('.env'), isGlobal: true }),
 
     // Database
     TypeOrmModule.forRootAsync({
@@ -34,8 +35,8 @@ import { Category } from './db/entities/category.entity';
 
     // Feature modules
     AuthModule,
-    ProductsModule,
-    CategoriesModule,
+    AdminModule,
+    ClientModule,
     CloudinaryModule,
   ],
 })

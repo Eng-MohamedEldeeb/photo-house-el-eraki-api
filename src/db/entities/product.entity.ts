@@ -8,6 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Category } from './category.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 export enum StockStatus {
   IN_STOCK = 'in_stock',
@@ -79,7 +80,7 @@ export class Product {
   category: Category;
 
   @Column({ nullable: true })
-  categoryId: number;
+  categoryId: string;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -87,3 +88,4 @@ export class Product {
   @UpdateDateColumn()
   updatedAt: Date;
 }
+export const ProductModel = TypeOrmModule.forFeature([Product]);

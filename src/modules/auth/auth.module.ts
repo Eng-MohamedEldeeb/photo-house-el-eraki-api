@@ -6,7 +6,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { JwtStrategy } from './strategies/jwt.strategy';
-import { Admin } from '../../db/entities/admin.entity';
+import { Admin, AdminModel } from '../../db/entities/admin.entity';
+import { CategoriesModule } from '../client/categories/categories.module';
+import { ProductsModule } from '../client/products/products.module';
 
 @Module({
   imports: [
@@ -20,7 +22,10 @@ import { Admin } from '../../db/entities/admin.entity';
       }),
       inject: [ConfigService],
     }),
-    TypeOrmModule.forFeature([Admin]),
+    AdminModel,
+    AuthModule,
+    CategoriesModule,
+    ProductsModule,
   ],
   providers: [AuthService, JwtStrategy],
   controllers: [AuthController],

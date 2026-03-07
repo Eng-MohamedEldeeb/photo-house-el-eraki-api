@@ -7,6 +7,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Product } from './product.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Entity('categories')
 export class Category {
@@ -31,3 +32,4 @@ export class Category {
   @UpdateDateColumn()
   updatedAt: Date;
 }
+export const CategoryModel = TypeOrmModule.forFeature([Category]);
