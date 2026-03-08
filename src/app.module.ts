@@ -11,7 +11,6 @@ import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
-    // Config
     ConfigModule.forRoot({
       envFilePath: resolve('.env.production'),
       isGlobal: true,
