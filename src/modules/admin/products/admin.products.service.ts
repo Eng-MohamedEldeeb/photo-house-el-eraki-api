@@ -87,23 +87,12 @@ export class AdminProductsService {
     };
   }
 
-  async create(
-    dto: CreateProductDto,
-    file?: Express.Multer.File,
-  ): Promise<Product> {
-    const product = this.repo.create(dto);
-
-    if (file) {
-      const { url, publicId } = await this.cloudinary.uploadImage(
-        file,
-        'photo-house/products',
-      );
-      product.imageUrl = url;
-      product.imagePublicId = publicId;
-    }
-
-    product.stockStatus = this.resolveStockStatus(product);
-    return await this.repo.save(product);
+  async create(dto: CreateProductDto): Promise<Product> {
+    return await this.repo.save({
+      ...dto,
+      imageUrl: dto.image.url,
+      imagePublicId: dto.image.publicId,
+    });
   }
 
   async update(

@@ -1,6 +1,6 @@
 {
   "name": "photo-house-backend",
-  "version": "1.0.0",
+  "version": "1.16.0",
   "description": "Photo House El Eraki - Backend API",
   "scripts": {
     "build": "nest build",
@@ -20,7 +20,7 @@
     "chalk": "^5.6.2",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.4",
-    "cloudinary": "^1.41.0",
+    "cloudinary": "^1.41.3",
     "multer": "^1.4.5-lts.1",
     "multer-storage-cloudinary": "^4.0.0",
     "passport": "^0.6.0",
@@ -34,7 +34,7 @@
     "@nestjs/cli": "^10.0.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/express": "^5.0.6",
-    "@types/multer": "^1.4.7",
+    "@types/multer": "^1.4.13",
     "@types/node": "^20.19.37",
     "@types/passport-jwt": "^3.0.13",
     "typescript": "^5.1.3"

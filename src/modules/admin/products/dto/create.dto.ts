@@ -7,10 +7,17 @@ import {
   Min,
   MinLength,
   IsUUID,
+  IsObject,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class CreateProductDto {
+  @IsObject()
+  image: {
+    publicId: string;
+    url: string;
+  };
+
   @IsString()
   @MinLength(2)
   nameEn: string;

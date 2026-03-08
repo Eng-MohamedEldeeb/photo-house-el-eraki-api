@@ -21,6 +21,7 @@ import { ProductQueryDto, CreateProductDto, UpdateProductDto } from './dto';
 import { UpdateStockDto } from './dto/update.dto';
 import { IsExistedCategory } from 'src/common/guards/is-existed-category.guard';
 import { IsExistedProduct } from 'src/common/guards/is-existed-product.guard';
+import { CloudInterceptor } from 'src/common/interceptors/cloudinary.interceptor';
 
 // ── Admin Routes (JWT protected) ──────────────────────────────────────────
 @Controller('admin/products')
@@ -48,19 +49,22 @@ export class AdminProductsController {
 
   /** POST /api/admin/products  (multipart/form-data) */
   @Post()
-  @UseInterceptors(FileInterceptor('image', { storage: memoryStorage() }))
+  @UseInterceptors(
+    FileInterceptor('image', { storage: memoryStorage() }),
+    CloudInterceptor,
+  )
   @UseGuards(IsExistedCategory)
   create(
     @Body() dto: CreateProductDto,
     @UploadedFile() file?: Express.Multer.File,
   ) {
-    return this.service.create(dto, file);
+    return this.service.create(dto);
   }
 
   /** PATCH /api/admin/products/:id */
   @Patch(':id')
   @UseInterceptors(FileInterceptor('image', { storage: memoryStorage() }))
-  @UseGuards(IsExistedProduct)
+  @UseGuards(IsExistedCategory, IsExistedProduct)
   update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() dto: UpdateProductDto,
