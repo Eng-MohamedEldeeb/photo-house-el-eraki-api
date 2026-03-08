@@ -5,7 +5,7 @@ import {
   NestInterceptor,
 } from '@nestjs/common';
 import { catchError, Observable, throwError } from 'rxjs';
-import { CloudinaryService } from '../services/cloudinary/cloudinary.service';
+import { CloudinaryService } from '../utils/cloudinary/cloudinary.service';
 import { Request } from 'express';
 
 @Injectable()

@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './modules/auth/auth.module';
-import { CloudinaryModule } from './common/services/cloudinary/cloudinary.module';
+import { CloudinaryModule } from './common/utils/cloudinary/cloudinary.module';
 import { Admin } from './db/entities/admin.entity';
 import { Product } from './db/entities/product.entity';
 import { Category } from './db/entities/category.entity';

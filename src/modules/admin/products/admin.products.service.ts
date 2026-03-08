@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Like, FindManyOptions } from 'typeorm';
 
 import { Product, StockStatus } from 'src/db/entities/product.entity';
-import { CloudinaryService } from 'src/common/services/cloudinary/cloudinary.service';
+import { CloudinaryService } from 'src/common/utils/cloudinary/cloudinary.service';
 import { ProductQueryDto, CreateProductDto, UpdateProductDto } from './dto';
 import { UpdateStockDto } from './dto/update.dto';
 
