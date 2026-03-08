@@ -1,5 +1,5 @@
+import { IsString, IsOptional, IsInt, Min, IsUUID } from 'class-validator';
 import { Type } from 'class-transformer';
-import { IsOptional, IsString, IsInt, Min, IsUUID } from 'class-validator';
 
 export class ProductQueryDto {
   @IsOptional()

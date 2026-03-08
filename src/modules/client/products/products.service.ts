@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Like, FindManyOptions } from 'typeorm';
 import { Product, StockStatus } from '../../../db/entities/product.entity';
-import { ProductQueryDto } from './dto/product.dto';
+import { ProductQueryDto } from './dto/query.dto';
 import { CloudinaryService } from '../../../common/services/cloudinary/cloudinary.service';
 
 @Injectable()
@@ -42,8 +42,8 @@ export class ProductsService {
     const [products, total] = await this.repo.findAndCount(options);
 
     return {
-      data: products,
       meta: { total, page, limit, totalPages: Math.ceil(total / limit) },
+      data: products,
     };
   }
 

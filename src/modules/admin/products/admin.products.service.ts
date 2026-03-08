@@ -64,9 +64,14 @@ export class AdminProductsService {
     const { search, categoryId, stockStatus, page = 1, limit = 20 } = query;
     const skip = (page - 1) * limit;
 
-    const where: any = {};
+    const where: {
+      categoryId?: string;
+      stockStatus?: string;
+      isActive: boolean;
+    } & Partial<Product> = { isActive: true };
+
     if (categoryId) where.categoryId = categoryId;
-    if (stockStatus) where.stockStatus = stockStatus;
+    if (stockStatus) where.stockStatus = stockStatus as StockStatus.IN_STOCK;
 
     const options: FindManyOptions<Product> = {
       where: search
@@ -81,18 +86,25 @@ export class AdminProductsService {
     };
 
     const [products, total] = await this.repo.findAndCount(options);
+
     return {
-      data: products,
       meta: { total, page, limit, totalPages: Math.ceil(total / limit) },
+      data: products,
     };
   }
 
   async create(dto: CreateProductDto): Promise<Product> {
-    return await this.repo.save({
-      ...dto,
-      imageUrl: dto.image.url,
-      imagePublicId: dto.image.publicId,
-    });
+    console.log({ dto });
+
+    if (dto.image) {
+      return await this.repo.save({
+        ...dto,
+        imageUrl: dto.image.url,
+        imagePublicId: dto.image.publicId,
+      });
+    }
+
+    return await this.repo.save(dto);
   }
 
   async update(

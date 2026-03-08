@@ -1,6 +1,6 @@
 import { Controller, Get, Param, Query, ParseUUIDPipe } from '@nestjs/common';
 import { ProductsService } from './products.service';
-import { ProductQueryDto } from './dto/product.dto';
+import { ProductQueryDto } from './dto/query.dto';
 
 // ── Public Routes ─────────────────────────────────────────────────────────
 @Controller('products')

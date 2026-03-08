@@ -13,6 +13,7 @@ import { Type } from 'class-transformer';
 
 export class CreateProductDto {
   @IsObject()
+  @IsOptional()
   image: {
     publicId: string;
     url: string;
