@@ -103,7 +103,7 @@ export class AdminProductsService {
     }
 
     product.stockStatus = this.resolveStockStatus(product);
-    return this.repo.save(product);
+    return await this.repo.save(product);
   }
 
   async update(
@@ -129,7 +129,7 @@ export class AdminProductsService {
 
     Object.assign(product, dto);
     product.stockStatus = this.resolveStockStatus(product);
-    return this.repo.save(product);
+    return await this.repo.save(product);
   }
 
   async updateStock(id: string, dto: UpdateStockDto): Promise<Product> {
@@ -139,7 +139,7 @@ export class AdminProductsService {
     product.stockQuantity = dto.stockQuantity;
     if (dto.soldQuantity !== undefined) product.soldQuantity = dto.soldQuantity;
     product.stockStatus = this.resolveStockStatus(product);
-    return this.repo.save(product);
+    return await this.repo.save(product);
   }
 
   async remove(id: string): Promise<{ message: string }> {

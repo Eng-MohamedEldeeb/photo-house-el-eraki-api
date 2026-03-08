@@ -35,13 +35,13 @@ export class CategoriesService {
     if (exists)
       throw new ConflictException('Category with this name already exists');
     const cat = this.repo.create(dto);
-    return this.repo.save(cat);
+    return await this.repo.save(cat);
   }
 
   async update(id: string, dto: UpdateCategoryDto): Promise<Category> {
     const cat = await this.findOne(id);
     Object.assign(cat, dto);
-    return this.repo.save(cat);
+    return await this.repo.save(cat);
   }
 
   async remove(id: string): Promise<{ message: string }> {

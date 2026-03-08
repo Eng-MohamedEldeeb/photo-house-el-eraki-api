@@ -109,9 +109,9 @@ export class ProductQueryDto {
   search?: string;
 
   @IsOptional()
-  @Type(() => Number)
+  @Type(() => String)
   @IsInt()
-  categoryId?: number;
+  categoryId?: string;
 
   @IsOptional()
   @IsString()

@@ -37,7 +37,6 @@ export class UpdateProductDto {
   @IsOptional() @IsBoolean() isActive?: boolean;
 }
 
-// ── Update Stock ──────────────────────────────────────────────────────────
 export class UpdateStockDto {
   @Type(() => Number)
   @IsInt()

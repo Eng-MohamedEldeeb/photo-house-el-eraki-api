@@ -13,22 +13,19 @@ export class ProductsService {
     private readonly cloudinary: CloudinaryService,
   ) {}
 
-  // ── Helpers ──────────────────────────────────────────────────────────────
-  private resolveStockStatus(product: Product): StockStatus {
-    if (product.stockQuantity <= 0) return StockStatus.OUT_OF_STOCK;
-    if (product.stockQuantity <= product.lowStockThreshold)
-      return StockStatus.LOW_STOCK;
-    return StockStatus.IN_STOCK;
-  }
-
   // ── Public ───────────────────────────────────────────────────────────────
   async findAll(query: ProductQueryDto) {
     const { search, categoryId, stockStatus, page = 1, limit = 12 } = query;
     const skip = (page - 1) * limit;
 
-    const where: any = { isActive: true };
+    const where: {
+      categoryId?: string;
+      stockStatus?: string;
+      isActive: boolean;
+    } & Partial<Product> = { isActive: true };
+
     if (categoryId) where.categoryId = categoryId;
-    if (stockStatus) where.stockStatus = stockStatus;
+    if (stockStatus) where.stockStatus = stockStatus as StockStatus.IN_STOCK;
 
     const options: FindManyOptions<Product> = {
       where: search
