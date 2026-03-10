@@ -36,7 +36,7 @@ async function bootstrap() {
   const port = process.env.PORT || 3000;
   await app.listen(port);
   console.log(
-    `🚀 Photo House API running on: ${chalk.yellow(`http://localhost:${port}/api`)}`,
+    `🚀 Photo House API running on: ${chalk.yellow(port)}`,
   );
 }
 bootstrap();
