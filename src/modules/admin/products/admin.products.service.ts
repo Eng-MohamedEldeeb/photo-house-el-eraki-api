@@ -94,8 +94,6 @@ export class AdminProductsService {
   }
 
   async create(dto: CreateProductDto): Promise<Product> {
-    console.log({ dto });
-
     if (dto.image) {
       return await this.repo.save({
         ...dto,

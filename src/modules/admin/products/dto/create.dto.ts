@@ -44,24 +44,24 @@ export class CreateProductDto {
   @IsString()
   sku?: string;
 
-  @IsOptional()
   @Type(() => Number)
   @IsInt()
   @Min(0)
-  stockQuantity?: number = 0;
+  stockQuantity: number = 0;
 
-  @IsOptional()
   @Type(() => Number)
   @IsInt()
   @Min(0)
-  lowStockThreshold?: number = 10;
+  lowStockThreshold: number = 10;
 
-  @IsOptional()
   @Type(() => String)
   @IsUUID()
-  categoryId?: string;
+  categoryId: string;
 
   @IsOptional()
   @IsBoolean()
   isFeatured?: boolean = false;
+
+  @IsBoolean()
+  isActive?: boolean = true;
 }

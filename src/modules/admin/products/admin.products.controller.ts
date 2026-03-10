@@ -11,6 +11,7 @@ import {
   UseInterceptors,
   UploadedFile,
   ParseUUIDPipe,
+  SetMetadata,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { memoryStorage } from 'multer';
@@ -49,6 +50,7 @@ export class AdminProductsController {
 
   /** POST /api/admin/products  (multipart/form-data) */
   @Post()
+  @SetMetadata('directory', 'photo-house/products') // For CloudInterceptor to know where to upload
   @UseInterceptors(
     FileInterceptor('image', { storage: memoryStorage() }),
     CloudInterceptor,

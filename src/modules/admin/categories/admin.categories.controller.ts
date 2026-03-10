@@ -8,11 +8,17 @@ import {
   Body,
   ParseUUIDPipe,
   UseGuards,
+  UseInterceptors,
+  SetMetadata,
+  UploadedFile,
 } from '@nestjs/common';
 import { CategoriesService } from './admin.categories.service';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 import { CreateCategoryDto, UpdateCategoryDto } from './dto';
 import { IsExistedCategory } from 'src/common/guards/is-existed-category.guard';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { memoryStorage } from 'multer';
+import { CloudInterceptor } from 'src/common/interceptors/cloudinary.interceptor';
 
 // ── Admin Routes (JWT protected) ──────────────────────────────────────────
 @Controller('admin/categories')
@@ -34,7 +40,15 @@ export class AdminCategoriesController {
 
   /** POST /api/admin/categories */
   @Post()
-  create(@Body() dto: CreateCategoryDto) {
+  @SetMetadata('directory', 'photo-house/categories') // For CloudInterceptor to know where to upload
+  @UseInterceptors(
+    FileInterceptor('image', { storage: memoryStorage() }),
+    CloudInterceptor,
+  )
+  create(
+    @Body() dto: CreateCategoryDto,
+    @UploadedFile() file?: Express.Multer.File,
+  ) {
     return this.service.create(dto);
   }
 
@@ -44,8 +58,9 @@ export class AdminCategoriesController {
   update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() dto: UpdateCategoryDto,
+    @UploadedFile() file?: Express.Multer.File,
   ) {
-    return this.service.update(id, dto);
+    return this.service.update(id, dto, file);
   }
 
   /** DELETE /api/admin/categories/:id */

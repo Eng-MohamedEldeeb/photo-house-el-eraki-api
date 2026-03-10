@@ -14,6 +14,13 @@ export class Category {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  // ── Image ────────────────────────────────────────────
+  @Column({ nullable: true })
+  imageUrl: string;
+
+  @Column({ nullable: true })
+  imagePublicId: string; // Cloudinary public_id for deletion
+
   @Column()
   nameEn: string;
 
