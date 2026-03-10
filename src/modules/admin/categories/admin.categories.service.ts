@@ -80,6 +80,10 @@ export class CategoriesService {
       select: { id: true },
     });
 
+    if (cat.imagePublicId) {
+      await this.cloudinary.deleteImage(cat.imagePublicId);
+    }
+
     await this.repo.remove(cat);
     return { message: `Category #${id} deleted successfully` };
   }
