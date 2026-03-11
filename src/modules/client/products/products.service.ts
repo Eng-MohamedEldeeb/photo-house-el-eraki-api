@@ -52,4 +52,12 @@ export class ProductsService {
     if (!product) throw new NotFoundException(`Product #${id} not found`);
     return product;
   }
+
+  async findFeatured(): Promise<Product[]> {
+    return this.repo.find({
+      where: { isFeatured: true, isActive: true },
+      order: { createdAt: 'DESC' },
+      take: 8,
+    });
+  }
 }

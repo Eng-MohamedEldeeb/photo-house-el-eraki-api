@@ -18,4 +18,10 @@ export class ProductsController {
   findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.service.findOne(id);
   }
+
+   /** GET /api/products/:id */
+  @Get('featured')
+  findFeatured() {
+    return this.service.findFeatured();
+  }
 }

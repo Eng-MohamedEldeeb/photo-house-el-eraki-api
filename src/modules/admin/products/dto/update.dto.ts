@@ -29,9 +29,19 @@ export class UpdateProductDto {
   lowStockThreshold?: number;
 
   @IsOptional()
+  @Type(() => String)
+  categoryId?: string;
+
   @Type(() => Number)
   @IsInt()
-  categoryId?: number;
+  @Min(0)
+  stockQuantity: number;
+
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(0)
+  soldQuantity?: number;
 
   @IsOptional() @IsBoolean() isFeatured?: boolean;
   @IsOptional() @IsBoolean() isActive?: boolean;
