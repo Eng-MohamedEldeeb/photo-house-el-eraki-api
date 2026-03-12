@@ -1,7 +1,8 @@
-import { Admin, DataSource } from 'typeorm';
+import { DataSource } from 'typeorm';
 import * as dotenv from 'dotenv';
 import { Category } from './db/entities/category.entity';
 import { Product } from './db/entities/product.entity';
+import { Admin } from './db/entities/admin.entity';
 
 dotenv.config({ path: '.env.production' });
 

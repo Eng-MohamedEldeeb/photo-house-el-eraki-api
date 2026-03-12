@@ -4,6 +4,7 @@
 /build
 fetchData.ts
 
+
 # Logs
 logs
 *.log

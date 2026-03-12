@@ -27,10 +27,10 @@ export class Product {
   @Column()
   nameAr: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, default: 'no description' })
   descriptionEn: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, default: 'no description' })
   descriptionAr: string;
 
   @Column('decimal', { precision: 10, scale: 2 })
@@ -49,6 +49,9 @@ export class Product {
   @Column({ default: 10 })
   lowStockThreshold: number; // alert when stock <= this
 
+  @Column({ default: 0 })
+  viewCount: number;
+
   @Column({
     type: 'enum',
     enum: StockStatus,
@@ -64,7 +67,7 @@ export class Product {
   imagePublicId: string; // Cloudinary public_id for deletion
 
   // ── Flags ────────────────────────────────────────────
-  @Column({ default: true })
+  @Column({ default: false })
   isFeatured: boolean;
 
   @Column({ default: true })

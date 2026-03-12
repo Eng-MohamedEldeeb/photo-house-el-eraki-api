@@ -11,6 +11,9 @@ export class ProductsService {
     private readonly repo: Repository<Product>,
   ) {}
 
+  async handleProductView(productId: string) {
+    await this.repo.increment({ id: productId }, 'viewCount', 1);
+  }
   // ── Public ───────────────────────────────────────────────────────────────
   async findAll(query: ProductQueryDto) {
     const { search, categoryId, stockStatus, page = 1, limit = 12 } = query;
@@ -48,6 +51,7 @@ export class ProductsService {
   async findOne(id: string): Promise<Product> {
     const product = await this.repo.findOne({ where: { id, isActive: true } });
     if (!product) throw new NotFoundException(`Product #${id} not found`);
+    this.handleProductView(id); // Increment views asynchronously
     return product;
   }
 
