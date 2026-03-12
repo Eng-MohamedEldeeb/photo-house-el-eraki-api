@@ -37,8 +37,6 @@ export class CategoriesService {
     if (exists)
       throw new ConflictException('Category with this name already exists');
 
-    console.log({ img: dto });
-
     if (dto.image) {
       return await this.repo.save({
         ...dto,

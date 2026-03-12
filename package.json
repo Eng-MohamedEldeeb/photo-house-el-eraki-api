@@ -1,6 +1,6 @@
 {
   "name": "photo-house-backend",
-  "version": "1.16.0",
+  "version": "1.19.0",
   "description": "Photo House El Eraki - Backend API",
   "scripts": {
     "build": "nest build",
