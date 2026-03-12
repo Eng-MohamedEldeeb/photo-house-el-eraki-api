@@ -3,14 +3,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Like, FindManyOptions } from 'typeorm';
 import { Product, StockStatus } from '../../../db/entities/product.entity';
 import { ProductQueryDto } from './dto/query.dto';
-import { CloudinaryService } from '../../../common/utils/cloudinary/cloudinary.service';
 
 @Injectable()
 export class ProductsService {
   constructor(
     @InjectRepository(Product)
     private readonly repo: Repository<Product>,
-    private readonly cloudinary: CloudinaryService,
   ) {}
 
   // ── Public ───────────────────────────────────────────────────────────────
@@ -53,11 +51,9 @@ export class ProductsService {
     return product;
   }
 
-  async findFeatured(): Promise<Product[]> {
-    return this.repo.find({
+  async findFeatured(): Promise<Product> {
+    return this.repo.findOne({
       where: { isFeatured: true, isActive: true },
-      order: { createdAt: 'DESC' },
-      take: 8,
     });
   }
 }

@@ -19,7 +19,7 @@ import { memoryStorage } from 'multer';
 import { AdminProductsService } from './admin.products.service';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 import { ProductQueryDto, CreateProductDto, UpdateProductDto } from './dto';
-import { UpdateStockDto } from './dto/update.dto';
+import { UpdateProductStatusDto, UpdateStockDto } from './dto/update.dto';
 import { IsExistedCategory } from 'src/common/guards/is-existed-category.guard';
 import { IsExistedProduct } from 'src/common/guards/is-existed-product.guard';
 import { CloudInterceptor } from 'src/common/interceptors/cloudinary.interceptor';
@@ -82,6 +82,16 @@ export class AdminProductsController {
     @Body() dto: UpdateStockDto,
   ) {
     return this.service.updateStock(id, dto);
+  }
+
+  /** PATCH /api/admin/products/:id/status */
+  @Patch(':id/status')
+  @UseGuards(IsExistedProduct)
+  updateStatus(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() dto: UpdateProductStatusDto,
+  ) {
+    return this.service.updateStatus(id, dto);
   }
 
   /** DELETE /api/admin/products/:id */

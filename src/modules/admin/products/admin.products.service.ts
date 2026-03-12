@@ -5,7 +5,7 @@ import { Repository, Like, FindManyOptions } from 'typeorm';
 import { Product, StockStatus } from 'src/db/entities/product.entity';
 import { CloudinaryService } from 'src/common/utils/cloudinary/cloudinary.service';
 import { ProductQueryDto, CreateProductDto, UpdateProductDto } from './dto';
-import { UpdateStockDto } from './dto/update.dto';
+import { UpdateProductStatusDto, UpdateStockDto } from './dto/update.dto';
 
 @Injectable()
 export class AdminProductsService {
@@ -23,52 +23,19 @@ export class AdminProductsService {
     return StockStatus.IN_STOCK;
   }
 
-  // ── Public ───────────────────────────────────────────────────────────────
-  async findAll(query: ProductQueryDto) {
-    const { search, categoryId, stockStatus, page = 1, limit = 12 } = query;
-    const skip = (page - 1) * limit;
-
-    const where: any = { isActive: true };
-    if (categoryId) where.categoryId = categoryId;
-    if (stockStatus) where.stockStatus = stockStatus;
-
-    const options: FindManyOptions<Product> = {
-      where: search
-        ? [
-            { ...where, nameEn: Like(`%${search}%`) },
-            { ...where, nameAr: Like(`%${search}%`) },
-          ]
-        : where,
-      order: { createdAt: 'DESC' },
-      skip,
-      take: limit,
-    };
-
-    const [products, total] = await this.repo.findAndCount(options);
-
-    return {
-      data: products,
-      meta: { total, page, limit, totalPages: Math.ceil(total / limit) },
-    };
-  }
-
-  async findOne(id: string): Promise<Product> {
-    const product = await this.repo.findOne({ where: { id, isActive: true } });
-    if (!product) throw new NotFoundException(`Product #${id} not found`);
-    return product;
-  }
-
   // ── Admin ─────────────────────────────────────────────────────────────────
   async findAllAdmin(query: ProductQueryDto) {
     // Admin sees all products including inactive
     const { search, categoryId, stockStatus, page = 1, limit = 20 } = query;
     const skip = (page - 1) * limit;
 
-    const where: {
-      categoryId?: string;
-      stockStatus?: string;
-      isActive: boolean;
-    } & Partial<Product> = { isActive: true };
+    const where: Partial<Product> = {};
+
+    // const where: {
+    //   categoryId?: string;
+    //   stockStatus?: string;
+    //   isActive: boolean;
+    // } & Partial<Product> = { isActive: true };
 
     if (categoryId) where.categoryId = categoryId;
     if (stockStatus) where.stockStatus = stockStatus as StockStatus.IN_STOCK;
@@ -81,6 +48,7 @@ export class AdminProductsService {
           ]
         : where,
       order: { createdAt: 'DESC' },
+      select: {},
       skip,
       take: limit,
     };
@@ -91,6 +59,12 @@ export class AdminProductsService {
       meta: { total, page, limit, totalPages: Math.ceil(total / limit) },
       data: products,
     };
+  }
+
+  async findOne(id: string): Promise<Product> {
+    const product = await this.repo.findOne({ where: { id, isActive: true } });
+    if (!product) throw new NotFoundException(`Product #${id} not found`);
+    return product;
   }
 
   async create(dto: CreateProductDto): Promise<Product> {
@@ -138,6 +112,17 @@ export class AdminProductsService {
     product.stockQuantity = dto.stockQuantity;
     if (dto.soldQuantity !== undefined) product.soldQuantity = dto.soldQuantity;
     product.stockStatus = this.resolveStockStatus(product);
+    return await this.repo.save(product);
+  }
+
+  async updateStatus(
+    id: string,
+    dto: UpdateProductStatusDto,
+  ): Promise<Product> {
+    const product = await this.repo.findOne({ where: { id } });
+
+    product.isActive = dto.isActive;
+    product.isFeatured = dto.isFeatured;
     return await this.repo.save(product);
   }
 

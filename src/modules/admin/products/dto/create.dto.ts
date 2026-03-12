@@ -62,7 +62,7 @@ export class CreateProductDto {
   @IsBoolean()
   isFeatured?: boolean;
 
-  @IsBoolean()
   @IsOptional()
+  @IsBoolean()
   isActive?: boolean;
 }

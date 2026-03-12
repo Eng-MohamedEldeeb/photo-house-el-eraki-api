@@ -59,3 +59,13 @@ export class UpdateStockDto {
   @Min(0)
   soldQuantity?: number;
 }
+
+export class UpdateProductStatusDto {
+  @IsBoolean()
+  @IsOptional()
+  isActive?: boolean;
+
+  @IsBoolean()
+  @IsOptional()
+  isFeatured?: boolean;
+}

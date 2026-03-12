@@ -13,13 +13,13 @@ export class ProductsController {
     return this.service.findAll(query);
   }
 
-  /** GET /api/products/:id */
-  @Get(':id')
+  /** GET /api/products/single/:id */
+  @Get('single/:id')
   findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.service.findOne(id);
   }
 
-   /** GET /api/products/:id */
+  /** GET /api/products/featured */
   @Get('featured')
   findFeatured() {
     return this.service.findFeatured();

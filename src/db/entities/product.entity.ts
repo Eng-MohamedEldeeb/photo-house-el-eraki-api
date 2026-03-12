@@ -64,7 +64,7 @@ export class Product {
   imagePublicId: string; // Cloudinary public_id for deletion
 
   // ── Flags ────────────────────────────────────────────
-  @Column({ default: false })
+  @Column({ default: true })
   isFeatured: boolean;
 
   @Column({ default: true })
