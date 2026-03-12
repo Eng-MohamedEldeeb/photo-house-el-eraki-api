@@ -1,0 +1,6 @@
+.dockerignore
+docker-compose*
+.git
+.gitignore
+README.md
+Dockerfile
